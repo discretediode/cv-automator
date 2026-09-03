@@ -203,8 +203,10 @@ if __name__ == "__main__":
     approved_anschreiben = review_and_edit_loop("Anschreiben", raw_anschreiben, personal_info)
     
     # 6. Final Assemble
+    ps_text = "*P.S. I am passionate about workflow automation. This application was initially drafted using a local, \"human-in-the-loop\" LLM tool I built in Python, and personally finalized by me.*"
+    
     final_cv = f"{personal_info}\n\n{education_info}\n\n---\n\n{approved_cv}"
-    final_anschreiben = f"{personal_info}\n\n---\n\n{approved_anschreiben}\n\n{signature_info}"
+    final_anschreiben = f"{personal_info}\n\n---\n\n{approved_anschreiben}\n\n{signature_info}\n\n{ps_text}"
     
     print("\n🎉 Both documents have been approved by you!")
 
