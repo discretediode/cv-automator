@@ -5,3 +5,4 @@ __pycache__/
 *.png
 *.pdf
 my_profile/
+.DS_Store
