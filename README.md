@@ -1,15 +1,10 @@
 # Personal AI CV & Cover Letter Automator
 
-A local, Python-based automation tool that leverages the Google Gemini API to instantly generate highly tailored Resumes (CVs) and Cover Letters (Anschreiben) directly from an Obsidian knowledge vault. 
-
-Designed with a strict "human-in-the-loop" privacy architecture, it ensures Personal Identifiable Information (PII) never leaves your local machine.
-
----
+A local, Python-based automation tool that uses the Google Gemini API to generate tailored resumes and cover letters from your Markdown notes. It uses a strict privacy-first architecture to ensure Personal Identifiable Information (PII) never leaves your local machine.
 
 ## 1. Prerequisites
-Before running the engine, ensure you have the following installed:
 * **Python 3.10+**
-* A **Google Gemini API Key** (Get one for free from [Google AI Studio](https://aistudio.google.com/app/apikey))
+* A **Google Gemini API Key** (available for free from Google AI Studio)
 
 ## 2. Environment Setup
 
@@ -18,28 +13,24 @@ Before running the engine, ensure you have the following installed:
 python -m venv .venv
 source .venv/bin/activate  # On Mac/Linux
 # OR: .venv\Scripts\activate  # On Windows
-```
 
-**2. Install required dependencies:**
-This project relies entirely on pure-Python libraries. (No heavy system graphics libraries like Homebrew/Cairo are required!)
-```bash
-pip install google-generativeai python-dotenv markdown xhtml2pdf
-```
+**2. Install all dependencies:**
+pip install google-generativeai python-dotenv markdown xhtml2pdf streamlit
 
-**3. Set up your API Key:**
-In the root directory of this project, rename the file `.env.example` into exactly `.env` and add your Gemini API key:
+**3. API Key Setup:**
+In the root directory of this project, rename the `.env.example` file into exactly `.env` and insert your Gemini API key there:
 ```ini
 MY_API_KEY="AIzaSy...your_api_key_here"
 ```
-*(Note: `.env` should be added to your `.gitignore` to prevent your key from leaking online).*
+*(IMPORTANT: `.env` should be added to your `.gitignore` to prevent your key from leaking online).*
 
 ---
 
-## 📁 3. Obsidian Vault Structure
+## 📁 3. Obsidian Vault Setup
 
-To prevent the AI from processing irrelevant data or altering static facts (like your GPA or Name), you must organize your Markdown files into a specific folder called `Career_Profile`. Update the `VAULT_PATH` in `llm_engine.py` to point to this folder.
+To set up your personal data, duplicate the existing my_profile_template folder and rename the copy to my_profile. Open the files inside and replace the placeholders with your real information.
 
-### **Images (Place in the root python project folder):**
+### **Images (Place in the root directory):**
 * `profile.jpg`: Professional application photo (Ideally 95x125 px).
 * `signature.png`: Your signature with a white or transparent background.
 
@@ -59,7 +50,7 @@ These files act as your "professional brain". The AI will read these to map your
 
 ## 4. Running the App
 
-Once your vault is set up and your `.env` file is saved, you can run the app:
+Once your environment and profile are configured, you can start the application:
 
 ```bash
 streamlit run app.py
@@ -72,7 +63,7 @@ streamlit run app.py
 4. Upon approval, Python locally merges your static files (Name, Photo, Education, Signature) with the AI draft.
 5. `xhtml2pdf` dynamically renders the final, styling-applied PDF files directly to your computer.
 
-### ⚠️ Troubleshooting
+### Troubleshooting
 * **`403 Permission Denied`**: Double-check that your API key in the `.env` file is correct and that you saved the file.
 * **`429 Resource Exhausted`**: You hit the free-tier rate limit (20 requests per minute). Wait 15-30 seconds and try again. 
 * **Testing UI/CSS**: If you are only tweaking the PDF layout (margins, colors), comment out the API call in `llm_engine.py` and return hardcoded Markdown dummy text to avoid hitting rate limits.# cv_automator
