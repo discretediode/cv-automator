@@ -1,5 +1,7 @@
 import streamlit as st
 import time
+import os
+from dotenv import load_dotenv
 from pathlib import Path
 
 # Import your custom modules
@@ -7,6 +9,9 @@ from pathlib import Path
 from vault_reader import read_vault
 from llm_engine import generate_tailored_cv, generate_anschreiben, refine_draft, detect_language
 from pdf_generator import generate_pdf_from_markdown
+
+#Load environment
+load_dotenv()
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(page_title="CV Automator", page_icon="📄", layout="wide")
@@ -45,9 +50,6 @@ if st.session_state.vault_data is None:
     
     # Save the remaining dynamic files for the AI
     st.session_state.vault_data = full_vault
-    
-    # Save the remaining dynamic files for the AI
-    st.session_state.vault_data = full_vault
 
 # --- 2. USER INPUT ---
 st.info(f"📁 Loaded Dynamic Vault Files for AI: {list(st.session_state.vault_data.keys())}")
@@ -81,16 +83,6 @@ if st.button("🚀 Generate Initial Drafts", type="primary"):
                                                                  )
         st.session_state.cv_version += 1
         st.session_state.letter_version += 1
-        
-        st.success("CV generated successfully! Review and refine below.")
-            
-        with st.spinner("Generating Cover Letter..."):
-            st.session_state.letter_draft = generate_anschreiben(job_description, 
-                                                                 st.session_state.cv_draft, 
-                                                                 st.session_state.static_files["anschreiben_guidelines"]
-                                                                 )
-            
-        st.success("Cover letter generated successfully! Review and refine below.")
 
 # --- 4. HUMAN-IN-THE-LOOP REVIEW & REFINEMENT ---
 if st.session_state.cv_draft or st.session_state.letter_draft:
@@ -155,10 +147,11 @@ if st.session_state.cv_draft or st.session_state.letter_draft:
             
             # 3. Assemble the Anschreiben
             final_anschreiben = f"{p_info}\n\n---\n\n{st.session_state.letter_draft}\n\n{sig_info}"
-            
+
             # 4. Generate PDFs using xhtml2pdf
-            generate_pdf_from_markdown(final_cv, "Dalfin_Solihin_CV.pdf", doc_type="cv")
-            generate_pdf_from_markdown(final_anschreiben, "Dalfin_Solihin_CoverLetter.pdf", doc_type="anschreiben")
+            pdf_name = os.getenv("PDF_NAME", "john_doe")
+            generate_pdf_from_markdown(final_cv, f"{pdf_name}_CV.pdf", doc_type="cv")
+            generate_pdf_from_markdown(final_anschreiben, f"{pdf_name}_CoverLetter.pdf", doc_type="anschreiben")
             
             st.success("🎉 PDFs successfully generated and saved to your folder!")
             st.balloons()
