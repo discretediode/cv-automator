@@ -49,13 +49,13 @@ To set up your personal data, duplicate the existing `my_profile_template` folde
 These files are "popped" out of the vault data by the Python script to protect your privacy and ensure consistent formatting.
 
 - `personal_info.md`: Your name, contact info, and profile image layout (HTML table).
-- `education.md`: Your degrees, universities, dates, and grades.
 - `signature.md`: Contains the image link to your signature and your typed name.
 
 ### **Dynamic Files (Sent to the AI for tailoring):**
 
 These files act as your "professional brain". The AI will read these to map your background to the job description.
 
+- `education.md`: Your degrees, universities, dates, and grades.
 - `experiences.md`: Your past work history and responsibilities.
 - `projects.md`: Technical projects (e.g., CV Automator, STM32 Controller).
 - `skills.md`: Programming languages, tools, and spoken languages.
