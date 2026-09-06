@@ -14,7 +14,7 @@ A local, Python-based automation tool that uses the Google Gemini API to generat
 ```bash
 python -m venv .venv
 source .venv/bin/activate # On Mac/Linux
-# OR: .venv\Scripts\activate # On Windows
+OR: .venv\Scripts\activate # On Windows
 ```
 
 **2. Install all dependencies:**
@@ -37,7 +37,7 @@ MY_API_KEY="AIzaSy...your_api_key_here"
 
 ## 3. Obsidian Vault Setup
 
-To set up your personal data, duplicate the existing `my_profile_template` folder and rename the copy to `my_profile`. Open the files inside and replace the placeholders with your real information.
+To set up your personal data, duplicate the existing `my_profile_template` folder and rename the copy to `my_profile`. Open the files in Obsidian and replace the placeholders with your real information.
 
 ### **Images (Place in the root directory):**
 
