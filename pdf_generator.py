@@ -1,4 +1,3 @@
-# pdf_generator.py
 import markdown
 from xhtml2pdf import pisa
 
@@ -7,48 +6,55 @@ def get_css(doc_type):
     base_css = """
     @page {
         size: a4 portrait;
-        margin: 1.2cm 1.5cm; /* Tighter margins to fit more on the page */
+        margin: 1.0cm 1.2cm; /* Even tighter margins to maximize page real estate */
     }
     body {
         font-family: Helvetica, Arial, sans-serif;
-        color: #000000; /* Pure Black */
-        font-size: 10.5pt; /* Slightly smaller for compactness */
-        line-height: 1.25; /* Tighter line height */
+        color: #000000;
+        font-size: 9.5pt; /* Shrink slightly to match the dense, technical look */
+        line-height: 1.15; /* Ultra-compact vertical spacing */
     }
     h1 {
         color: #000000; 
-        font-size: 18pt;
-        border-bottom: 1px solid #000000; /* Black underline */
-        padding-bottom: 4px;
-        margin-bottom: 2px;
+        font-size: 16pt;
+        border-bottom: 1px solid #000000;
+        padding-bottom: 2px;
+        margin-top: 0;
+        margin-bottom: 4px;
     }
     h2 {
         color: #000000;
-        font-size: 13pt;
-        margin-top: 10px;
-        margin-bottom: 4px;
+        font-size: 11pt;
+        text-transform: uppercase; /* Forces section headers to caps for a cleaner look */
+        margin-top: 8px;
+        margin-bottom: 3px;
     }
     h3 {
-        font-size: 11pt;
-        margin-top: 6px;
-        margin-bottom: 2px;
+        font-size: 10pt;
+        font-weight: bold;
+        margin-top: 4px;
+        margin-bottom: 1px;
     }
     p {
-        margin-bottom: 5px;
+        margin-top: 1px;
+        margin-bottom: 3px;
+        text-align: justify; /* THIS creates the flush-right blocky text effect */
     }
     ul {
-        margin-bottom: 6px;
-        margin-top: 2px;
+        margin-top: 1px;
+        margin-bottom: 5px;
+        padding-left: 15px; /* Pulls bullet points closer to the left margin */
     }
     li {
         margin-bottom: 2px;
+        text-align: justify; /* Justifies multi-line bullet points */
     }
     """
     
     if doc_type == "anschreiben":
         base_css += """
         body { font-size: 11pt; line-height: 1.3; }
-        p { text-align: justify; margin-bottom: 10px; }
+        p { text-align: justify; margin-bottom: 10px; margin-top: 4px; }
         h1 { border-bottom: none; margin-bottom: 12px; }
         """
         
@@ -60,13 +66,13 @@ def generate_pdf_from_markdown(markdown_text, output_filename, doc_type="cv"):
     """
     print(f"🎨 Rendering {output_filename} locally...")
     
-    # 1. Convert Markdown string to HTML string
+    # Convert Markdown string to HTML string
     html_content = markdown.markdown(markdown_text, extensions=['extra', 'nl2br'])
     
-    # 2. Get the appropriate CSS
+    # Get the appropriate CSS
     css_styles = get_css(doc_type)
     
-    # 3. Wrap it in standard HTML boilerplate
+    # Wrap it in standard HTML boilerplate
     full_html = f"""
     <html>
     <head>
@@ -80,9 +86,8 @@ def generate_pdf_from_markdown(markdown_text, output_filename, doc_type="cv"):
     </html>
     """
     
-    # 4. Use xhtml2pdf to generate the file
+    # Use xhtml2pdf to generate the file
     with open(output_filename, "w+b") as result_file:
-        # pisa.CreatePDF converts the HTML string to a PDF file
         pisa_status = pisa.CreatePDF(full_html, dest=result_file)
         
     if pisa_status.err:
